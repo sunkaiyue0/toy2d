@@ -70,16 +70,17 @@ void Swapchain::queryInfo(int w, int h) {
     }
 }
 
+// 取出Image,函数返回一个image数组
 void Swapchain::getImages() {
     images = Context::GetInstance().device.getSwapchainImagesKHR(swapchain);
 }
 
 void Swapchain::createImageViews() {
-    imageViews.resize(images.size());
+    imageViews.resize(images.size());   // 将imageViews容量扩大
 
     for (int i = 0; i < images.size(); i++) {
         vk::ImageViewCreateInfo createInfo;
-        vk::ComponentMapping mapping;
+        vk::ComponentMapping mapping;   // 映射关系，默认构造为不改变
         vk::ImageSubresourceRange range;
         range.setBaseMipLevel(0)
              .setLevelCount(1)
