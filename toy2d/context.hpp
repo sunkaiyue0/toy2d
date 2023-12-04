@@ -26,6 +26,7 @@ public:
         std::optional<uint32_t> graphicsQueue;
         std::optional<uint32_t> presentQueue;
 
+        // 与bool类型的转换
         operator bool() const {
             return graphicsQueue.has_value() && presentQueue.has_value();
         }

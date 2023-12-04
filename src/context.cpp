@@ -60,13 +60,14 @@ void Context::createDevice() {
     vk::DeviceCreateInfo createInfo;
     std::vector<vk::DeviceQueueCreateInfo> queueCreateInfos;
     float priorities = 1.0;
+    // 当同一队列索引两种操作都支持
     if (queueFamilyIndices.presentQueue.value() == queueFamilyIndices.graphicsQueue.value()) {
         vk::DeviceQueueCreateInfo queueCreateInfo;
         queueCreateInfo.setPQueuePriorities(&priorities)
                        .setQueueCount(1)
                        .setQueueFamilyIndex(queueFamilyIndices.graphicsQueue.value());
         queueCreateInfos.push_back(std::move(queueCreateInfo));
-    } else {
+    } else {    // 否则创建两个队列
         vk::DeviceQueueCreateInfo queueCreateInfo;
         queueCreateInfo.setPQueuePriorities(&priorities)
                        .setQueueCount(1)
@@ -90,10 +91,10 @@ void Context::queryQueueFamilyIndices() {
         if (property.queueFlags | vk::QueueFlagBits::eGraphics) {
             queueFamilyIndices.graphicsQueue = i;
         }
-        if (phyDevice.getSurfaceSupportKHR(i, surface)) {
+        if (phyDevice.getSurfaceSupportKHR(i, surface)) {   // 检查命令队列是否支持surface显示
             queueFamilyIndices.presentQueue = i;
         }
-
+        // 如果两个值都被确认了。
         if (queueFamilyIndices) {
             break;
         }
