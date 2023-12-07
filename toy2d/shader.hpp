@@ -13,8 +13,8 @@ public:
         return *instance_;
     }
 
-    vk::ShaderModule vertexModule;
-    vk::ShaderModule fragmentModule;
+    vk::ShaderModule vertexModule;  // 顶点着色器
+    vk::ShaderModule fragmentModule;    // 片段着色器
 
     ~Shader();
 

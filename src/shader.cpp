@@ -15,9 +15,10 @@ void Shader::Quit() {
 
 Shader::Shader(const std::string& vertexSource, const std::string& fragSource) {
     vk::ShaderModuleCreateInfo createInfo;
+    // 不推荐使用 createInfo.setCode()，该函数输入为uint32_t数组，
+    // 因为读入二进制文件时通常不使用uint32_t的类型读入
     createInfo.codeSize = vertexSource.size();
     createInfo.pCode = (uint32_t*)vertexSource.data();
-
     vertexModule = Context::GetInstance().device.createShaderModule(createInfo);
 
     createInfo.codeSize = fragSource.size();
